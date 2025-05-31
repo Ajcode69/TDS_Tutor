@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from typing import List
+from typing import List, Dict, Any
 from datetime import datetime
 
 from app.models.question import QuestionCreate, Question, QuestionResponse
@@ -10,28 +10,29 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.post("/", response_model=QuestionResponse, status_code=status.HTTP_201_CREATED)
-async def create_question(question: QuestionCreate):
+@router.post("/", status_code=status.HTTP_200_OK)
+async def create_question(request_data: Dict[str, Any]):
     """
     Create a new question.
     
-    This is a dummy endpoint - replace with your logic later.
+    Validates that the request contains a non-empty 'question' string.
     """
-    # Dummy response - replace with actual database logic
-    dummy_question = Question(
-        id=1,
-        title=question.title,
-        content=question.content,
-        difficulty=question.difficulty,
-        category=question.category,
-        tags=question.tags,
-        created_at=datetime.now()
-    )
+    # Check if 'question' field exists and is a non-empty string
+    print(request_data)
+    if "question" not in request_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Missing 'question' field"
+        )
     
-    return QuestionResponse(
-        message="Question created successfully",
-        question=dummy_question
-    )
+    question = request_data["question"]
+    if not isinstance(question, str) or not question.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="'question' must be a non-empty string"
+        )
+    
+    return {"message": "Question created successfully", "question": question.strip()}
 
 @router.get("/", response_model=List[Question])
 async def get_questions():
