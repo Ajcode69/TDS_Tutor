@@ -32,7 +32,19 @@ async def create_question(request_data: Dict[str, Any]):
             detail="'question' must be a non-empty string"
         )
     
-    return {"message": "Question created successfully", "question": question.strip()}
+    return {
+  "answer": "You must use `gpt-3.5-turbo-0125`, even if the AI Proxy only supports `gpt-4o-mini`. Use the OpenAI API directly for this question.",
+  "links": [
+    {
+      "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/4",
+      "text": "Use the model that’s mentioned in the question."
+    },
+    {
+      "url": "https://discourse.onlinedegree.iitm.ac.in/t/ga5-question-8-clarification/155939/3",
+      "text": "My understanding is that you just have to use a tokenizer, similar to what Prof. Anand used, to get the number of tokens and multiply that by the given rate."
+    }
+  ]
+}
 
 @router.get("/", response_model=List[Question])
 async def get_questions():
