@@ -11,7 +11,7 @@ prompts:
 providers:
   - id: https
     config:
-      url: https://tds-project-1-exzjjl68w-abhinav-jaswals-projects.vercel.app/query
+      url: https://tds-tutor.onrender.com/api/api
       method: POST
       headers:
         Content-Type: application/json
