@@ -206,6 +206,7 @@ async def find_similar_content(query_embedding, conn):
             try:
                 embedding = json.loads(chunk["embedding"])
                 similarity = cosine_similarity(query_embedding, embedding)
+                print("similarity is ", similarity)
                 
                 if similarity >= SIMILARITY_THRESHOLD:
                     # Ensure URL is properly formatted
