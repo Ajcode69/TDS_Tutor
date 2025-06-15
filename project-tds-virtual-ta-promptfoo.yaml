@@ -11,7 +11,7 @@ prompts:
 providers:
   - id: https
     config:
-      url: https://tds-tutor.onrender.com/api/api
+      url: https://tds-tutor.onrender.com/api
       method: POST
       headers:
         Content-Type: application/json
